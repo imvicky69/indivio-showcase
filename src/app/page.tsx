@@ -1,11 +1,21 @@
+import Button from '../../components/ui/Button'; 
 
-//forcing new commit
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-4xl font-bold">Indivio - VR Connecting Dots...</h1>
-      <span className="text-2xl">Your gateway to immersive virtual reality experiences.</span>
-      <p className="mt-4 text-lg">Welcome to the Indivio application!</p>
+    <main className="flex min-h-screen flex-col items-center justify-center p-24 text-center">
+      <h1 className="text-5xl font-bold">
+        Welcome to the Indivio Application!
+      </h1>
+      <p className="mt-4 max-w-2xl text-lg text-gray-600">
+        Your gateway to immersive virtual reality experiences. We handle the tech,
+        so you can focus on building your business.
+      </p>
+      <div className="mt-8 flex gap-4">
+        <Button>Book a Demo</Button>
+        <Button className="bg-gray-800 hover:bg-gray-900">
+          View Pricing
+        </Button>
+      </div>
     </main>
-  )
+  );
 }
