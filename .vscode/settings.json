@@ -1,0 +1,16 @@
+{
+  // Enable format on save for all languages
+  "editor.formatOnSave": true,
+  // Default formatter for most files
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Auto-fix ESLint errors on save
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // Tailwind CSS class sorting and autocompletion
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ]
+}
