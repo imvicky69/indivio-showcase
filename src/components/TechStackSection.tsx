@@ -28,7 +28,7 @@ const techData = [
     icon: (
       <div className="flex h-12 w-12 items-center justify-center">
         <Image
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Google_Cloud_logo.svg/2560px-Google_Cloud_logo.svg.png"
+          src="/logo.png"
           alt="Google Cloud Logo"
           width={24}
           height={24}
