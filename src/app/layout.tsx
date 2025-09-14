@@ -1,5 +1,5 @@
 // src/app/layout.tsx
-import type { Metadata } from 'next';
+// 'Metadata' import removed because it's not used
 import { Inter, Poppins } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/Navbar';
