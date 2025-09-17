@@ -1,10 +1,17 @@
-'use client';
+'use client'; // <-- THIS IS THE CRUCIAL FIX
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Plan } from '@/lib/plans';
 import { WizardFormData } from '../CheckoutWizard';
-import { Loader2 } from 'lucide-react';
+import { Loader2, ShieldCheck } from 'lucide-react';
 import toast from 'react-hot-toast';
+
+declare global {
+  interface Window {
+    PhonePeCheckout: any;
+  }
+}
 
 interface Step4Props {
   plan: Plan;
@@ -13,103 +20,78 @@ interface Step4Props {
 
 export function Step4_Payment({ plan, formData }: Step4Props) {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
-  const finalAmount = plan.price; // Add your discount logic here
+  let finalAmount = plan.price; // Add your discount logic here
 
   const handlePayment = async () => {
     setIsLoading(true);
-    toast.loading('Initializing payment...');
+    toast.loading('Initializing secure payment...');
+
+    if (typeof window.PhonePeCheckout !== 'object' || !window.PhonePeCheckout.transact) {
+      toast.dismiss();
+      toast.error('Payment SDK not loaded. Please refresh and try again.');
+      setIsLoading(false);
+      return;
+    }
 
     try {
-      // Create a more complete payment payload
-      const paymentData = {
-        amount: finalAmount,
-        userId: formData.accountDetails?.email || 'guest',
-        planId: plan.id,
-        planName: plan.name,
-      };
+      // Save data to sessionStorage before payment
+      sessionStorage.setItem('indivioBookingData', JSON.stringify({ plan, formData }));
 
-      console.log('Payment initiation payload:', paymentData);
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API_URL;
+      
+      const response = await fetch(`${backendUrl}/initiate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: finalAmount,
+          userId: formData.accountDetails?.email,
+        }),
+      });
 
-      // 1. Call our backend to initiate the payment
-      const response = await fetch(
-        'https://us-central1-indivio-in.cloudfunctions.net/api/payment/initiate',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-          body: JSON.stringify(paymentData),
-        }
-      );
-
-      // Log the raw response for debugging
-      console.log('Payment API response status:', response.status);
-
-      // Handle non-JSON responses
-      const responseText = await response.text();
-      console.log('Payment API response body:', responseText);
-
-      let data;
-      try {
-        data = JSON.parse(responseText);
-      } catch (e) {
-        console.error('Failed to parse response as JSON:', e);
-        throw new Error('Invalid response format from payment server');
+      const data = await response.json();
+      if (!response.ok || !data.success) {
+        throw new Error(data.details || 'Failed to start payment.');
       }
-
-      if (!response.ok) {
-        throw new Error(data.message || `Server error: ${response.status}`);
-      }
-
-      if (!data.checkoutUrl) {
-        throw new Error('Payment initiated but no checkout URL was provided');
-      }
-
-      console.log(
-        'Payment successfully initiated, redirecting to:',
-        data.checkoutUrl
-      );
-
-      // 2. Redirect the user to the checkout page
-      window.location.href = data.checkoutUrl;
-    } catch (error) {
+      
       toast.dismiss();
-      const errMsg =
-        error instanceof Error
-          ? error.message
-          : 'An unexpected error occurred.';
-      toast.error(errMsg);
+
+      window.PhonePeCheckout.transact({
+        tokenUrl: data.checkoutUrl,
+        type: "IFRAME",
+        callback: function(response: any) {
+          setIsLoading(false); // Stop loading when iFrame closes
+          if (response === 'CONCLUDED') {
+            // Redirect to the success page for server-side verification
+            router.push(`/booking/success?orderId=${data.orderId}`);
+          } else { // Handles USER_CANCEL
+            toast.error("Payment was cancelled.");
+          }
+        }
+      });
+
+    } catch (error: any) {
+      toast.dismiss();
+      toast.error(error.message);
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="rounded-2xl border bg-white shadow-lg">
+    <div className="bg-white rounded-2xl shadow-lg border">
       <div className="p-8">
-        <h2 className="font-display text-2xl font-bold text-primary">
-          Complete Your Payment
-        </h2>
-        <div className="mt-8 space-y-4 rounded-lg bg-muted/50 p-6">
-          <div className="flex items-center justify-between text-2xl font-bold text-primary">
+        <h2 className="text-2xl font-bold font-display text-primary">Complete Your Payment</h2>
+        <div className="mt-8 space-y-4 bg-muted/50 p-6 rounded-lg">
+          <div className="flex justify-between items-center text-2xl font-bold text-primary">
             <span>Total Amount:</span>
             <span>₹{finalAmount.toLocaleString('en-IN')}</span>
           </div>
         </div>
         <div className="mt-8">
-          <button
-            onClick={handlePayment}
-            disabled={isLoading}
-            className="flex w-full items-center justify-center gap-3 rounded-full bg-primary py-4 text-lg font-semibold text-primary-foreground disabled:cursor-not-allowed disabled:opacity-70"
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="animate-spin" /> Initializing...
-              </>
-            ) : (
-              'Pay Now'
-            )}
+          <button onClick={handlePayment} disabled={isLoading} className="w-full flex items-center justify-center gap-3 bg-primary text-primary-foreground font-semibold py-4 rounded-full text-lg disabled:opacity-70">
+            {isLoading ? <Loader2 className="animate-spin" /> : <ShieldCheck />}
+            {isLoading ? 'Redirecting to PhonePe...' : 'Pay with PhonePe'}
           </button>
         </div>
       </div>

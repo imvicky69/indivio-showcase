@@ -4,6 +4,7 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import NextTopLoader from 'nextjs-toploader';
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const poppins = Poppins({
@@ -122,7 +123,7 @@ export const metadata: Metadata = {
   },
   verification: {
     google: 'google-site-verification-code', // Replace with your actual verification code
-   
+
     other: {
       me: ['hello@indivio.in'], // Replace with your actual email
     },
@@ -214,6 +215,11 @@ export default function RootLayout({
         />
         {/* Google Tag Manager code can be added here */}
       </head>
+      {/* --- THE FIX: Use the correct script URL for the Web Checkout SDK --- */}
+      <Script
+        src="https://mercury.phonepe.com/web/bundle/checkout.js"
+        strategy="afterInteractive"
+      />
       <body>
         <NextTopLoader color="hsl(var(--primary))" showSpinner={false} />
         <Navbar />
