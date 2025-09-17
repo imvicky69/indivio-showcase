@@ -21,30 +21,59 @@ export function Step4_Payment({ plan, formData }: Step4Props) {
     toast.loading('Initializing payment...');
 
     try {
+      // Create a more complete payment payload
+      const paymentData = {
+        amount: finalAmount,
+        userId: formData.accountDetails?.email || 'guest',
+        planId: plan.id,
+        planName: plan.name,
+      };
+
+      console.log('Payment initiation payload:', paymentData);
+
       // 1. Call our backend to initiate the payment
       const response = await fetch(
         'https://us-central1-indivio-in.cloudfunctions.net/api/payment/initiate',
         {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            amount: finalAmount,
-            // We can add userId here if available in formData
-            // userId: formData.accountDetails?.userId,
-          }),
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify(paymentData),
         }
       );
 
-      const data = await response.json();
+      // Log the raw response for debugging
+      console.log('Payment API response status:', response.status);
 
-      if (!response.ok || !data.checkoutUrl) {
-        throw new Error(data.message || 'Failed to initiate payment.');
+      // Handle non-JSON responses
+      const responseText = await response.text();
+      console.log('Payment API response body:', responseText);
+
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (e) {
+        console.error('Failed to parse response as JSON:', e);
+        throw new Error('Invalid response format from payment server');
       }
 
-      const { checkoutUrl } = data;
+      if (!response.ok) {
+        throw new Error(data.message || `Server error: ${response.status}`);
+      }
 
-      // 2. Redirect the user to the PhonePe checkout page
-      window.location.href = checkoutUrl;
+      if (!data.checkoutUrl) {
+        throw new Error('Payment initiated but no checkout URL was provided');
+      }
+
+      console.log(
+        'Payment successfully initiated, redirecting to:',
+        data.checkoutUrl
+      );
+
+      // 2. Redirect the user to the checkout page
+      window.location.href = data.checkoutUrl;
     } catch (error) {
       toast.dismiss();
       const errMsg =

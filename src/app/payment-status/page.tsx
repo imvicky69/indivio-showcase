@@ -8,7 +8,6 @@ import { Check, AlertTriangle, X, Loader2 } from 'lucide-react';
 const MAX_RETRIES = 5;
 const RETRY_INTERVAL = 2000; // 2 seconds
 
-// Create a client component that uses useSearchParams
 function PaymentStatusContent() {
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<
@@ -16,33 +15,30 @@ function PaymentStatusContent() {
   >('loading');
   const [retryCount, setRetryCount] = useState(0);
   const [isChecking, setIsChecking] = useState(false);
-  const orderId = searchParams.get('orderId'); // <-- FIX: Read 'orderId'
+  const orderId = searchParams.get('orderId');
 
   const checkPaymentStatus = useCallback(async () => {
     if (!orderId) {
-      console.error('Error: orderId not found in URL');
       setStatus('failure');
       return;
     }
 
     setIsChecking(true);
     try {
-      // <-- FIX: Use the correct external API endpoint
       const response = await fetch(
         `https://us-central1-indivio-in.cloudfunctions.net/api/payment/status/${orderId}`
       );
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Payment verification failed');
+        throw new Error(data.error || 'Payment verification failed');
       }
 
-      if (data.status === 'SUCCESS') {
+      if (data.success && data.status === 'COMPLETED') {
         setStatus('success');
       } else if (data.status === 'FAILURE') {
         setStatus('failure');
       } else {
-        // If still pending, we might retry
         setStatus('pending');
       }
     } catch (error) {
@@ -128,8 +124,9 @@ function PaymentStatusContent() {
                 Payment Successful!
               </h1>
               <p className="mt-4 text-muted-foreground">
-                Your payment was processed successfully. We&apos;ve sent a
-                confirmation email with details.
+                Your payment has been processed successfully. Your school
+                account is being set up now. We&apos;ve sent a confirmation
+                email with details.
               </p>
               <div className="mt-8 rounded-lg bg-muted/30 p-4">
                 <p className="text-muted-foreground">Order ID: {orderId}</p>
@@ -175,7 +172,6 @@ function PaymentStatusContent() {
   );
 }
 
-// Export the main page component with Suspense boundary
 export default function PaymentStatusPage() {
   return (
     <Suspense
