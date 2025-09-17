@@ -1,27 +1,24 @@
-// src/app/pricing/page.tsx
 import type { Metadata } from 'next';
-import { PricingHero } from '@/components/PricingHero';
-import { PricingPlans as ImportedPricingPlans } from '@/components/PricingPlans';
-import { ValueSection } from '@/components/ValueSection';
-import { FaqSection } from '@/components/FaqSection';
-import { FinalCta } from '@/components/FinalCta';
+import { getPricingPlans, getOffers } from '@/lib/plans';
+import { PricingSection } from '@/components/PricingSection';
+import { OffersSection } from '@/components/OffersSection';
+import { CtaSection } from '@/components/CtaSection';
 
-// Step 1: Set the SEO metadata for the pricing page
 export const metadata: Metadata = {
-  title: 'Pricing & Plans | Affordable School Website Packages | Indivio',
-  description:
-    "Simple, transparent pricing for every school. Explore our plans to find the perfect fit for your institution's website and management needs. No hidden fees.",
+  title: 'Pricing Plans | Indivio',
+  description: 'Find the perfect plan for your school with our clear and simple pricing. All plans include hosting, security, and support.',
 };
-// pricingCtaProps removed (not used) — keep the FinalCta component instead
-// Step 3: Assemble the page with the section placeholders
-export default function PricingPage() {
+
+export default async function PricingPage() {
+  // Fetch data on the server
+  const plans = await getPricingPlans();
+  const offers = await getOffers();
+
   return (
     <>
-      <PricingHero />
-      <ImportedPricingPlans />
-      <ValueSection />
-      <FaqSection />
-      <FinalCta />
+      <PricingSection plans={plans} />
+      <OffersSection offers={offers} />
+      <CtaSection />
     </>
   );
 }

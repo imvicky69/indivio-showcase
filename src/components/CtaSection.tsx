@@ -1,59 +1,59 @@
 // src/components/CtaSection.tsx
-import Link from 'next/link';
 import { SectionHeading } from './SectionHeading';
+import { Button } from './ui/Button'; // <-- IMPORT OUR NEW BUTTON
 
-// Define the shape of a button object for type safety
+// The types and default props logic remain the same and are perfectly fine.
 type ButtonProps = {
   text: string;
   href: string;
-  primary?: boolean; // To distinguish between filled (true) and outlined (false) styles
+  primary?: boolean;
 };
 
-// Define the props for the CtaSection component
 type CtaSectionProps = {
   heading?: string;
   subheading?: string;
   buttons?: ButtonProps[];
 };
 
-// Set the default content for when the component is used on the homepage
-const defaultHeading = "Ready to take your school to the next level?";
-const defaultSubheading = "Get started today and receive free 1-year hosting with any of our all-in-one management packages. No restrictions, full performance.";
+const defaultHeading = 'Ready to take your school to the next level?';
+const defaultSubheading =
+  'Get started today and receive free 1-year hosting with any of our all-in-one management packages. No restrictions, full performance.';
 const defaultButtons: ButtonProps[] = [
   { text: 'Book Your site Now', href: '/booking', primary: false },
 ];
 
 export function CtaSection({
   heading = defaultHeading,
-  subheading = defaultSubheading,
+  subheading = defaultSubheading, // Use the passed subheading, or default if undefined
   buttons = defaultButtons,
 }: CtaSectionProps) {
   return (
+    // The hero-gradient now correctly adapts to the theme.
     <section className="bg-hero-gradient py-20 sm:py-28">
       <div className="container mx-auto px-6 text-center">
-        
         <SectionHeading>{heading}</SectionHeading>
 
-        <p className="max-w-3xl mx-auto mt-4 text-lg md:text-xl text-dark/70 font-sans">
-          {subheading}
-        </p>
+        {/* We only render the subheading if it exists */}
+        {subheading && (
+          // FIXED: Use text-muted-foreground for the subheading text.
+          <p className="mx-auto mt-4 max-w-3xl font-sans text-lg text-muted-foreground md:text-xl">
+            {subheading}
+          </p>
+        )}
 
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        {/* === THE MAGIC HAPPENS HERE === */}
+        <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           {buttons.map((button) => (
-            <Link 
+            <Button
               key={button.href}
               href={button.href}
-              className={`inline-block px-8 py-3 font-medium rounded-full transition-all w-full sm:w-auto
-                ${button.primary 
-                  ? 'bg-primary text-light hover:opacity-90' // Filled button style
-                  : 'text-primary border border-primary/80 hover:bg-primary/5' // Outlined button style
-                }`}
+              // We pass the 'variant' prop to control the style
+              variant={button.primary ? 'primary' : 'secondary'}
             >
               {button.text}
-            </Link>
+            </Button>
           ))}
         </div>
-        
       </div>
     </section>
   );

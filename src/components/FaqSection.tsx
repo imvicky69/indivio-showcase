@@ -1,7 +1,7 @@
 // src/components/FaqSection.tsx
 
 // This directive marks this as a Client Component, allowing interactivity.
-"use client"; 
+'use client';
 
 import { useState } from 'react';
 import { SectionHeading } from './SectionHeading';
@@ -11,19 +11,23 @@ import { ChevronDown } from 'lucide-react';
 const faqData = [
   {
     question: 'What happens after the first year?',
-    answer: 'After the initial one-year term, you only need to pay a small annual renewal fee, which starts at just ₹999/year. This covers your hosting, security, maintenance, and ongoing support.',
+    answer:
+      'After the initial one-year term, you only need to pay a small annual renewal fee, which starts at just ₹999/year. This covers your hosting, security, maintenance, and ongoing support.',
   },
   {
     question: 'Can I use my own domain name (e.g., www.myschool.com)?',
-    answer: 'Yes! Our Growth and Pro plans are designed for you to connect your own custom domain name, strengthening your school\'s brand and online identity.',
+    answer:
+      "Yes! Our Growth and Pro plans are designed for you to connect your own custom domain name, strengthening your school's brand and online identity.",
   },
   {
     question: 'Is there a separate setup fee?',
-    answer: 'No. The plan price you see is a one-time fee for the entire first year. This includes the complete design, development, and setup of your website with no hidden charges.',
+    answer:
+      'No. The plan price you see is a one-time fee for the entire first year. This includes the complete design, development, and setup of your website with no hidden charges.',
   },
   {
     question: 'Can I upgrade my plan later?',
-    answer: 'Absolutely. We understand that your needs can change. You can easily upgrade your plan at any time to access more features as your school grows.',
+    answer:
+      'Absolutely. We understand that your needs can change. You can easily upgrade your plan at any time to access more features as your school grows.',
   },
 ];
 
@@ -37,20 +41,22 @@ export function FaqSection() {
   };
 
   return (
-    <section className="bg-white py-20 sm:py-28">
+    <section id="faq" className="bg-white py-20 sm:py-28">
       <div className="container mx-auto px-6">
         <SectionHeading>Your Questions, Answered</SectionHeading>
 
-        <div className="max-w-3xl mx-auto mt-12 space-y-4">
+        <div className="mx-auto mt-12 max-w-3xl space-y-4">
           {faqData.map((faq, index) => (
             <div key={index} className="border-b border-slate-200">
               <button
                 onClick={() => handleToggle(index)}
-                className="w-full flex justify-between items-center py-4 text-left"
+                className="flex w-full items-center justify-between py-4 text-left"
               >
-                <span className="text-lg font-medium text-dark">{faq.question}</span>
+                <span className="text-lg font-medium text-dark">
+                  {faq.question}
+                </span>
                 <ChevronDown
-                  className={`w-6 h-6 text-primary transition-transform duration-300 ${
+                  className={`h-6 w-6 text-primary transition-transform duration-300 ${
                     openIndex === index ? 'rotate-180' : ''
                   }`}
                 />
@@ -58,7 +64,9 @@ export function FaqSection() {
               {/* This div's height animates based on the 'openIndex' state */}
               <div
                 className={`grid overflow-hidden transition-all duration-300 ease-in-out ${
-                  openIndex === index ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                  openIndex === index
+                    ? 'grid-rows-[1fr] opacity-100'
+                    : 'grid-rows-[0fr] opacity-0'
                 }`}
               >
                 <div className="overflow-hidden">

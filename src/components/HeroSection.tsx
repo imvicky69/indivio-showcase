@@ -1,35 +1,37 @@
 // src/components/HeroSection.tsx
+import { Button } from './ui/Button'; // Import the Button component
 
 export function HeroSection() {
   return (
-    <section className="bg-hero-gradient min-h-screen flex items-center justify-center pt-24 pb-12">
+    <section className="flex min-h-screen items-center justify-center bg-hero-gradient pb-12 pt-24">
       <div className="container mx-auto px-6 text-center">
-        
-        {/* 
-          This structure now perfectly mirrors the `SectionHeading` component for consistency,
-          but we are using an <h1> for SEO on the main page title.
-        */}
-        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-8">
-          <span className="w-7 h-7 sm:w-8 sm:h-8 bg-accent rounded-full flex-shrink-0"></span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary font-display max-w-4xl">
+        <div className="mb-8 flex items-center justify-center gap-3 sm:gap-4">
+          {/* The orange dot now uses the 'accent' color from our theme */}
+          <span className="h-7 w-7 flex-shrink-0 rounded-full bg-accent sm:h-8 sm:w-8"></span>
+
+          {/* FIXED: The heading now uses the theme's main text color */}
+          <h1 className="max-w-4xl font-display text-4xl font-bold text-foreground sm:text-5xl md:text-6xl">
             Your All-in-One School Website & Management Portal.
           </h1>
         </div>
 
-        <p className="max-w-2xl mx-auto text-lg md:text-xl text-dark/70 font-sans">
+        {/* FIXED: The paragraph now uses the theme's muted text color */}
+        <p className="mx-auto max-w-2xl font-sans text-lg text-muted-foreground md:text-xl">
           We handle the technology so you can focus on education. Effortlessly
           manage admissions, fees, and parent communication.
         </p>
 
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button className="px-8 py-3 font-medium text-primary border border-primary/80 rounded-full hover:bg-primary/5 transition-colors w-full sm:w-auto">
+        <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          {/* FIXED: This is now a secondary, outlined button */}
+          <Button href="/booking" variant="secondary">
             Book Your site Now
-          </button>
-          <button className="px-8 py-3 font-medium text-light bg-primary rounded-full hover:opacity-90 transition-opacity w-full sm:w-auto">
+          </Button>
+
+          {/* FIXED: This is now a primary, filled button */}
+          <Button href="/demo" variant="primary">
             See a live example
-          </button>
+          </Button>
         </div>
-        
       </div>
     </section>
   );

@@ -1,3 +1,76 @@
+/* src/app/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 
+  Define CSS Variables for Light Mode (Default)
+  --------------------------------------------------
+*/
+:root {
+  --background: 43 100% 97%; /* Light Cream */
+  --foreground: 0 0% 7%;   /* Dark Gray / Black for text */
+
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 7%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 7%;
+
+  --primary: 0 0% 0%; /* Black */
+  --primary-foreground: 0 0% 100%; /* White text on blue buttons */
+
+  --secondary: 0 0% 96.1%;
+  --secondary-foreground: 0 0% 9%;
+
+  --muted: 0 0% 90%; /* A muted gray for backgrounds */
+  --muted-foreground: 0 0% 45.1%;
+
+  --accent: 25 95% 53%; /* Your Brand Orange: #f97316 */
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 0 0% 89.8%;
+  --input: 0 0% 89.8%;
+  --ring: 217 100% 34%; /* Blue for focus rings */
+
+  --radius: 0.75rem;
+}
+
+/* 
+  Define CSS Variables for Dark Mode
+  --------------------------------------------------
+*/
+.dark {
+  --background: 0 0% 7%; /* Dark Gray: #111111 */
+  --foreground: 0 0% 98%; /* White text */
+
+  --card: 0 0% 10%;
+  --card-foreground: 0 0% 98%;
+
+  --popover: 0 0% 7%;
+  --popover-foreground: 0 0% 98%;
+  
+  /* In Dark Mode, Orange becomes the primary action color */
+  --primary: 25 95% 53%; /* Your Brand Orange: #f97316 */
+  --primary-foreground: 0 0% 7%; /* Dark text on orange buttons */
+
+  --secondary: 0 0% 14.9%;
+  --secondary-foreground: 0 0% 98%;
+
+  --muted: 0 0% 14.9%;
+  --muted-foreground: 0 0% 63.9%;
+
+  /* The accent dot will still use this */
+  --accent: 25 95% 53%; /* Orange */
+  --accent-foreground: 0 0% 7%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 0 0% 14.9%;
+  --input: 0 0% 14.9%;
+  --ring: 25 95% 53%; /* Orange for focus rings */
+}
