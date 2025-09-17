@@ -1,0 +1,11 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /payment-status
+Disallow: /payment-page
+
+# Host
+Host: https://indivio.in
+
+# Sitemaps
+Sitemap: https://indivio.in/sitemap.xml

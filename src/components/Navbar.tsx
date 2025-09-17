@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
@@ -32,7 +31,7 @@ export function Navbar() {
     if (isMenuOpen) {
       setIsMenuOpen(false);
     }
-  }, [pathname, isMenuOpen]);
+  }, [pathname]);
 
   const menuVariants = {
     hidden: { opacity: 0, y: -20 },
@@ -43,20 +42,12 @@ export function Navbar() {
   return (
     <header
       className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
-        hasScrolled || isMenuOpen
-          ? 'bg-background/80 shadow-lg backdrop-blur-sm'
-          : 'bg-transparent'
+        hasScrolled || isMenuOpen ? 'bg-background/80 shadow-lg backdrop-blur-sm' : 'bg-transparent'
       }`}
     >
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center">
-          <Image
-            src="/logo.png"
-            alt="Indivio Logo"
-            width={120}
-            height={40}
-            className="h-10 w-auto"
-          />
+          <img src="/logo.png" alt="Indivio Logo" className="h-10 w-auto" />
         </Link>
 
         {/* Desktop Navigation */}
@@ -85,14 +76,10 @@ export function Navbar() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="z-50 text-foreground md:hidden"
+          className="text-foreground md:hidden z-50"
           aria-label="Toggle menu"
         >
-          {isMenuOpen ? (
-            <X className="h-6 w-6" />
-          ) : (
-            <Menu className="h-6 w-6" />
-          )}
+          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
 
@@ -104,7 +91,7 @@ export function Navbar() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="absolute left-0 top-full w-full bg-background/95 shadow-lg backdrop-blur-sm md:hidden"
+            className="md:hidden absolute top-full left-0 w-full bg-background/95 backdrop-blur-sm shadow-lg"
           >
             <nav className="flex flex-col items-center gap-6 px-6 py-8">
               {navLinks.map((link) => (
