@@ -49,7 +49,7 @@ export default function BookingSuccessPage() {
                 setStatus('SUCCESS');
                 sessionStorage.removeItem('indivioBookingData');
 
-              } catch (error: any) {
+              } catch (error: unknown) {
                 console.error("Error saving booking data:", error);
                 // Handle cases where user might already exist, etc.
                 setStatus('FAILED');

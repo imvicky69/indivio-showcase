@@ -24,7 +24,7 @@ export function Navbar() {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isMenuOpen]);
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -42,11 +42,14 @@ export function Navbar() {
   return (
     <header
       className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
-        hasScrolled || isMenuOpen ? 'bg-background/80 shadow-lg backdrop-blur-sm' : 'bg-transparent'
+        hasScrolled || isMenuOpen
+          ? 'bg-background/80 shadow-lg backdrop-blur-sm'
+          : 'bg-transparent'
       }`}
     >
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.png" alt="Indivio Logo" className="h-10 w-auto" />
         </Link>
 
@@ -76,10 +79,14 @@ export function Navbar() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="text-foreground md:hidden z-50"
+          className="z-50 text-foreground md:hidden"
           aria-label="Toggle menu"
         >
-          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {isMenuOpen ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <Menu className="h-6 w-6" />
+          )}
         </button>
       </div>
 
@@ -91,7 +98,7 @@ export function Navbar() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="md:hidden absolute top-full left-0 w-full bg-background/95 backdrop-blur-sm shadow-lg"
+            className="absolute left-0 top-full w-full bg-background/95 shadow-lg backdrop-blur-sm md:hidden"
           >
             <nav className="flex flex-col items-center gap-6 px-6 py-8">
               {navLinks.map((link) => (
