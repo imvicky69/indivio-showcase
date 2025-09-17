@@ -1,29 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { useSdkReady } from '@/context/SdkReadyContext'; // <-- Import the hook
 import { Plan } from '@/lib/plans';
 import { WizardFormData } from '../CheckoutWizard';
-import { Loader2, ShieldCheck } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
-
-// This declares the 'Cashfree' object on the window for TypeScript
-declare global {
-  interface Window {
-    Cashfree: {
-      drop: (options: {
-        orderToken: string;
-        components: string[];
-        onSuccess: (data: unknown) => void;
-        onFailure: (error: unknown) => void;
-      }) => void;
-      checkout: (options: { paymentSessionId: string }) => void;
-      new (environment: 'PROD' | 'SANDBOX'): {
-        checkout: (options: { paymentSessionId: string }) => void;
-      };
-    };
-  }
-}
 
 interface Step4Props {
   plan: Plan;
@@ -32,43 +13,38 @@ interface Step4Props {
 
 export function Step4_Payment({ plan, formData }: Step4Props) {
   const [isLoading, setIsLoading] = useState(false);
-  const { isSdkReady } = useSdkReady(); // <-- Use the context
 
   const finalAmount = plan.price; // Add your discount logic here
 
   const handlePayment = async () => {
     setIsLoading(true);
-    toast.loading('Initializing secure payment...');
-
-    if (typeof window.Cashfree !== 'function') {
-      toast.dismiss();
-      toast.error('Payment SDK not loaded. Please refresh and try again.');
-      setIsLoading(false);
-      return;
-    }
+    toast.loading('Initializing payment...');
 
     try {
-      // 1. Call our backend to create the order
-      const response = await fetch('/api/create-cashfree-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: finalAmount, plan, formData }),
-      });
+      // 1. Call our backend to initiate the payment
+      const response = await fetch(
+        'https://asia-south1-indivio-in.cloudfunctions.net/api/payment/initiate',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: finalAmount,
+            // We can add userId here if available in formData
+            // userId: formData.accountDetails?.userId,
+          }),
+        }
+      );
 
       const data = await response.json();
-      if (!data.success) throw new Error(data.message);
 
-      const { paymentSessionId } = data;
+      if (!response.ok || !data.checkoutUrl) {
+        throw new Error(data.message || 'Failed to initiate payment.');
+      }
 
-      // 2. Initialize and launch the Cashfree checkout modal
-      const cashfree = new window.Cashfree(
-        process.env.NEXT_PUBLIC_CASHFREE_ENVIRONMENT === 'PROD'
-          ? 'PROD'
-          : 'SANDBOX'
-      );
-      toast.dismiss();
+      const { checkoutUrl } = data;
 
-      cashfree.checkout({ paymentSessionId });
+      // 2. Redirect the user to the PhonePe checkout page
+      window.location.href = checkoutUrl;
     } catch (error) {
       toast.dismiss();
       const errMsg =
@@ -95,21 +71,15 @@ export function Step4_Payment({ plan, formData }: Step4Props) {
         <div className="mt-8">
           <button
             onClick={handlePayment}
-            // --- THE FIX ---
-            // Disable the button if the SDK isn't ready OR if we are already loading
-            disabled={!isSdkReady || isLoading}
-            className="flex w-full items-center justify-center gap-3 rounded-full bg-primary py-4 text-lg font-semibold text-primary-foreground"
+            disabled={isLoading}
+            className="flex w-full items-center justify-center gap-3 rounded-full bg-primary py-4 text-lg font-semibold text-primary-foreground disabled:cursor-not-allowed disabled:opacity-70"
           >
             {isLoading ? (
               <>
                 <Loader2 className="animate-spin" /> Initializing...
               </>
-            ) : !isSdkReady ? (
-              'Loading Payment Options...'
             ) : (
-              <>
-                <ShieldCheck /> Pay with Cashfree
-              </>
+              'Pay Now'
             )}
           </button>
         </div>
