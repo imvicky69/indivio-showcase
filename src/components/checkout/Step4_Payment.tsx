@@ -23,7 +23,7 @@ export function Step4_Payment({ plan, formData }: Step4Props) {
     try {
       // 1. Call our backend to initiate the payment
       const response = await fetch(
-        'https://asia-south1-indivio-in.cloudfunctions.net/api/payment/initiate',
+        'https://us-central1-indivio-in.cloudfunctions.net/api/payment/initiate',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
