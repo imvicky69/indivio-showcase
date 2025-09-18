@@ -1,11 +1,14 @@
 import type { Metadata } from 'next';
 import { getPricingPlans, getOffers } from '@/lib/plans';
-import { PricingSection } from '@/components/PricingSection';
-import { OffersSection } from '@/components/OffersSection';
-import { CtaSection } from '@/components/CtaSection';
+import { PricingSection } from '@/components/pricing/PricingSection';
+import { OffersSection } from '@/components/pricing/OffersSection';
+
+// Ensure this page is rendered dynamically on every request so Firestore
+// reads always return fresh data instead of build-time cached values.
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Affordable School Management Pricing Plans',
+  title: 'Indivio : Pricing Plans',
   description:
     'Find the perfect budget-friendly plan for your educational institution with our transparent pricing. All plans include hosting, security, support, and no hidden fees.',
   keywords: [
@@ -41,7 +44,7 @@ export default async function PricingPage() {
     <>
       <PricingSection plans={plans} />
       <OffersSection offers={offers} />
-      <CtaSection />
+      {/* <CtaSection /> */}
     </>
   );
 }

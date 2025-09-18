@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Plan } from '@/lib/plans';
-import { WizardFormData } from '../CheckoutWizard';
+import { WizardFormData } from '@/components/checkout/CheckoutWizard';
 import { Loader2, ShieldCheck } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -102,10 +102,50 @@ export function Step4_Payment({ plan, formData }: Step4Props) {
         );
       }
 
-      const data: { success: boolean; checkoutUrl?: string; details?: string } =
-        await response.json();
+      const data: {
+        success: boolean;
+        checkoutUrl?: string;
+        orderId?: string;
+        order_id?: string;
+        referenceId?: string;
+        details?: string;
+      } = await response.json();
       if (!data.success || !data.checkoutUrl) {
         throw new Error(data.details || 'Failed to start payment.');
+      }
+
+      // Try to extract an order ID from the response body or the checkout URL
+      let orderId: string | null =
+        data.orderId || data.order_id || data.referenceId || null;
+      if (!orderId && data.checkoutUrl) {
+        try {
+          const parsed = new URL(data.checkoutUrl);
+          const keys = [
+            'orderId',
+            'order_id',
+            'merchantOrderId',
+            'referenceId',
+            'orderid',
+          ];
+          for (const k of keys) {
+            const v = parsed.searchParams.get(k);
+            if (v) {
+              orderId = v;
+              break;
+            }
+          }
+        } catch (e) {
+          // ignore URL parse errors
+        }
+      }
+
+      // Persist orderId alongside booking data so the success page can verify
+      if (orderId) {
+        try {
+          sessionStorage.setItem('indivioOrderId', orderId);
+        } catch (e) {
+          // ignore storage errors
+        }
       }
 
       toast.dismiss();
@@ -130,8 +170,20 @@ export function Step4_Payment({ plan, formData }: Step4Props) {
         if (response === 'CONCLUDED') {
           toast.success('Payment completed');
           closeIframe();
-          // Navigate to success page (adjust path if needed)
-          router.push('/booking/success');
+          // Navigate to success page with orderId so the server can verify
+          const savedOrderId =
+            typeof window !== 'undefined'
+              ? sessionStorage.getItem('indivioOrderId')
+              : null;
+          const navigateOrderId = orderId || savedOrderId;
+          if (navigateOrderId) {
+            router.push(
+              `/success?orderId=${encodeURIComponent(navigateOrderId)}`
+            );
+          } else {
+            // Fallback: go to a generic success landing if no order id is available
+            router.push('/success');
+          }
         }
       };
 

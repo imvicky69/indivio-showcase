@@ -1,11 +1,12 @@
 // src/app/demo/page.tsx
 import type { Metadata } from 'next';
-import { DemoPageContent } from '@/components/DemoPageContent';
+import { DemoPageContent } from '@/components/demo/DemoPageContent';
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Live Demo | Indivio School Website & Management Platform',
-  description: 'Experience the Indivio platform firsthand. Interact with a live demo of a school website and see how easy it is to manage content from the admin dashboard.',
+  description:
+    'Experience the Indivio platform firsthand. Interact with a live demo of a school website and see how easy it is to manage content from the admin dashboard.',
 };
 
 export default function DemoPage() {

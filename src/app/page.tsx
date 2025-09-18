@@ -1,10 +1,11 @@
 // src/app/page.tsx
-import { HeroSection } from '@/components/HeroSection';
-import { FeaturesSection } from '@/components/FeaturesSection';
-import { TechStackSection } from '@/components/TechStackSection';
-import { HowItWorksSection } from '@/components/HowItWorksSection';
-import { GlobalCtaSection } from '@/components/GlobalCtaSection';
-import { TechAdvantageSection } from '@/components/TechAdvantageSection';
+import { HeroSection } from '@/components/home/HeroSection';
+import { FeaturesSection } from '@/components/home/FeaturesSection';
+import { TechStackSection } from '@/components/home/TechStackSection';
+import { HowItWorksSection } from '@/components/home/HowItWorksSection';
+
+import { CtaSection } from '@/components//ui/CtaSection';
+import { TechAdvantageSection } from '@/components/home/TechAdvantageSection';
 import type { Metadata } from 'next';
 
 // Page-specific SEO metadata
@@ -35,22 +36,22 @@ export const metadata: Metadata = {
     ],
   },
 };
+
 export default function HomePage() {
   return (
     <>
       <HeroSection />
       <FeaturesSection />
       <TechAdvantageSection />
+
       <HowItWorksSection />
       <TechStackSection />
-      <GlobalCtaSection
-        layout="split" // Use the new, more engaging layout
-        accentText="Dive Deeper"
-        heading="Explore Everything Included in Our Platform"
-        subheading="See the full list of features that will transform your school's digital presence, from admissions to alumni engagement."
+      <CtaSection
+        heading="Ready to Elevate Your School's Digital Experience?"
+        subheading="Join hundreds of institutions transforming their management and online presence with Indivio."
         buttons={[
-          { text: 'View All Features', href: '/features', variant: 'primary' },
-          { text: 'See Pricing', href: '/pricing', variant: 'secondary' },
+          { text: 'Get Started', href: '/signup', primary: true },
+          { text: 'Book a Free Demo', href: '/demo', primary: false },
         ]}
       />
     </>

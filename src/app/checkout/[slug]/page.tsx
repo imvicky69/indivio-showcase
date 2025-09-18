@@ -1,4 +1,4 @@
-import { CheckoutWizard } from '@/components/CheckoutWizard';
+import { CheckoutWizard } from '@/components/checkout/CheckoutWizard';
 import { getPlanById } from '@/lib/plans';
 import { notFound } from 'next/navigation';
 

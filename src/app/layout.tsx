@@ -1,7 +1,7 @@
 import { Inter, Poppins } from 'next/font/google';
 import './globals.css';
-import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
+import { Navbar } from '@/components/ui/Navbar';
+import { Footer } from '@/components/ui/Footer';
 import NextTopLoader from 'nextjs-toploader';
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';

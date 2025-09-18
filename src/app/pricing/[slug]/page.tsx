@@ -1,6 +1,6 @@
 import { getPlanById } from '@/lib/plans';
 import { notFound } from 'next/navigation';
-import { CheckoutWizard } from '@/components/CheckoutWizard';
+import { CheckoutWizard } from '@/components/checkout/CheckoutWizard';
 
 /**
  * Generates the page title dynamically.

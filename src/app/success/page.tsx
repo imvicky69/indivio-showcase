@@ -10,64 +10,72 @@ import { db } from '@/lib/firebase';
 
 function BookingSuccessContent() {
   const searchParams = useSearchParams();
-  const orderId = searchParams.get('orderId');
+  const initialOrderId =
+    typeof window !== 'undefined' ? searchParams.get('orderId') : null;
+  const [orderId, setOrderId] = useState<string | null>(initialOrderId);
   const [status, setStatus] = useState('LOADING');
 
   useEffect(() => {
-    if (orderId) {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API_URL;
-      // 1. Verify payment status with your backend
-      fetch(`${backendUrl}/status/${orderId}`)
-        .then((res) => res.json())
-        .then(async (data) => {
-          if (data.success && data.status === 'SUCCESS') {
-            // --- PHASE 1 FIX: Logic to save user data ---
-            const savedDataString =
-              sessionStorage.getItem('indivioBookingData');
-            if (savedDataString) {
-              const { plan, formData } = JSON.parse(savedDataString);
-              try {
-                // 2. Create the user in Firebase Auth
-                const auth = getAuth();
-                const userCredential = await createUserWithEmailAndPassword(
-                  auth,
-                  formData.accountDetails.email,
-                  formData.accountDetails.password
-                );
-                const user = userCredential.user;
-                // 3. Save the complete booking document to Firestore
-                await addDoc(collection(db, 'bookings'), {
-                  userId: user.uid,
-                  planId: plan.id,
-                  planName: plan.name,
-                  pricePaid: data.amount,
-                  schoolInfo: formData.schoolDetails,
-                  bookingDate: serverTimestamp(),
-                  status: 'completed',
-                  orderId: orderId,
-                });
+    // If no orderId in query, try sessionStorage (set by checkout flow)
+    if (!orderId && typeof window !== 'undefined') {
+      const stored = sessionStorage.getItem('indivioOrderId');
+      if (stored) setOrderId(stored);
+    }
 
-                // 4. Set status to SUCCESS and clean up
-                setStatus('SUCCESS');
-                sessionStorage.removeItem('indivioBookingData');
-              } catch (error: unknown) {
-                console.error('Error saving booking data:', error);
-                // Handle cases where user might already exist, etc.
-                setStatus('FAILED');
-              }
-            } else {
-              // Data not found in session, might be a refresh.
-              // Mark as success but log an issue.
+    if (!orderId) {
+      return;
+    }
+
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API_URL;
+    // 1. Verify payment status with your backend
+    fetch(`${backendUrl}/status/${orderId}`)
+      .then((res) => res.json())
+      .then(async (data) => {
+        if (data.success && data.status === 'SUCCESS') {
+          // --- PHASE 1 FIX: Logic to save user data ---
+          const savedDataString = sessionStorage.getItem('indivioBookingData');
+          if (savedDataString) {
+            const { plan, formData } = JSON.parse(savedDataString);
+            try {
+              // 2. Create the user in Firebase Auth
+              const auth = getAuth();
+              const userCredential = await createUserWithEmailAndPassword(
+                auth,
+                formData.accountDetails.email,
+                formData.accountDetails.password
+              );
+              const user = userCredential.user;
+              // 3. Save the complete booking document to Firestore
+              await addDoc(collection(db, 'bookings'), {
+                userId: user.uid,
+                planId: plan.id,
+                planName: plan.name,
+                pricePaid: data.amount,
+                schoolInfo: formData.schoolDetails,
+                bookingDate: serverTimestamp(),
+                status: 'completed',
+                orderId: orderId,
+              });
+
+              // 4. Set status to SUCCESS and clean up
               setStatus('SUCCESS');
+              sessionStorage.removeItem('indivioBookingData');
+              sessionStorage.removeItem('indivioOrderId');
+            } catch (error: unknown) {
+              console.error('Error saving booking data:', error);
+              // Handle cases where user might already exist, etc.
+              setStatus('FAILED');
             }
           } else {
-            setStatus('FAILED');
+            // Data not found in session, might be a refresh.
+            // Mark as success but log an issue.
+            setStatus('SUCCESS');
           }
-        })
-        .catch(() => setStatus('FAILED'));
-    } else {
-      setStatus('FAILED');
-    }
+        } else {
+          setStatus('FAILED');
+        }
+      })
+      .catch(() => setStatus('FAILED'));
   }, [orderId]);
 
   // ... The JSX for displaying different statuses remains the same ...
