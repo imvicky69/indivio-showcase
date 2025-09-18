@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Plan } from '@/lib/plans';
 import { WizardFormData } from '../CheckoutWizard';
@@ -15,10 +15,50 @@ interface Step4Props {
 export function Step4_Payment({ plan, formData }: Step4Props) {
   const [isLoading, setIsLoading] = useState(false);
   const [paymentError, setPaymentError] = useState<string | null>(null);
+  const [scriptLoaded, setScriptLoaded] = useState(false);
+  const [iframeOpen, setIframeOpen] = useState(false);
   const router = useRouter();
 
   // For now, no discount
   const finalAmount = plan.price;
+
+  // Load PhonePe checkout script once when component mounts
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if ((window as any).PhonePeCheckout) {
+      setScriptLoaded(true);
+      return;
+    }
+    const existing = document.querySelector(
+      'script[src="https://mercury.phonepe.com/web/bundle/checkout.js"]'
+    ) as HTMLScriptElement | null;
+    if (existing) {
+      if ((window as any).PhonePeCheckout) setScriptLoaded(true);
+      existing.addEventListener('load', () => setScriptLoaded(true));
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://mercury.phonepe.com/web/bundle/checkout.js';
+    script.async = true;
+    script.onload = () => setScriptLoaded(true);
+    script.onerror = () => {
+      console.error('Failed to load PhonePe checkout script');
+      setPaymentError(
+        'Failed to load payment gateway. Please refresh the page.'
+      );
+    };
+    document.head.appendChild(script);
+  }, []);
+
+  const closeIframe = useCallback(() => {
+    try {
+      (window as any)?.PhonePeCheckout?.closePage?.();
+    } catch (e) {
+      // ignore
+    }
+    setIframeOpen(false);
+    setIsLoading(false);
+  }, []);
 
   const handlePayment = async () => {
     setIsLoading(true);
@@ -32,7 +72,7 @@ export function Step4_Payment({ plan, formData }: Step4Props) {
       );
 
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API_URL;
-      console.log('Using backend URL:', backendUrl);
+      // console.log('Using backend URL:', backendUrl);
 
       const response = await fetch(`${backendUrl}/initiate`, {
         method: 'POST',
@@ -56,10 +96,44 @@ export function Step4_Payment({ plan, formData }: Step4Props) {
       }
 
       toast.dismiss();
-      console.log('Payment data received:', data);
+      // console.log('Payment data received:', data);
 
-      // 🔑 Redirect user directly to PhonePe hosted checkout page
-      window.open(data.checkoutUrl, '_blank');
+      // Use PhonePeCheckout.transact in IFRAME mode
+      if (!(window as any).PhonePeCheckout) {
+        throw new Error('Payment gateway script not ready.');
+      }
+
+      const tokenUrl = data.checkoutUrl; // Assuming backend returns a URL that serves the token
+
+      const callback = (response: 'USER_CANCEL' | 'CONCLUDED') => {
+        // Close loading toast if still visible
+        toast.dismiss();
+        if (response === 'USER_CANCEL') {
+          toast('Payment cancelled');
+          closeIframe();
+          return;
+        }
+        if (response === 'CONCLUDED') {
+          toast.success('Payment completed');
+          closeIframe();
+          // Navigate to success page (adjust path if needed)
+          router.push('/booking/success');
+        }
+      };
+
+      try {
+        (window as any).PhonePeCheckout.transact({
+          tokenUrl,
+          callback,
+          type: 'IFRAME',
+        });
+        setIframeOpen(true);
+        toast.dismiss();
+        toast.success('Secure payment window opened');
+      } catch (iframeErr) {
+        console.error('Failed to open PhonePe IFRAME:', iframeErr);
+        throw new Error('Failed to open payment window.');
+      }
     } catch (error) {
       toast.dismiss();
       console.error('Payment error:', error);
@@ -90,12 +164,41 @@ export function Step4_Payment({ plan, formData }: Step4Props) {
         <div className="mt-8">
           <button
             onClick={handlePayment}
-            disabled={isLoading}
+            disabled={isLoading || !scriptLoaded}
             className="flex w-full items-center justify-center gap-3 rounded-full bg-primary py-4 text-lg font-semibold text-primary-foreground disabled:opacity-70"
           >
             {isLoading ? <Loader2 className="animate-spin" /> : <ShieldCheck />}
-            {isLoading ? 'Redirecting to payment...' : 'Pay Securely'}
+            {!scriptLoaded
+              ? 'Loading payment gateway...'
+              : isLoading
+                ? 'Preparing payment...'
+                : 'Pay Securely'}
           </button>
+
+          {iframeOpen && (
+            <div className="mt-8">
+              {/* Responsive IFRAME container */}
+              <div
+                className="relative mx-auto w-full max-w-3xl overflow-hidden rounded-xl border shadow-lg"
+                style={{ minHeight: '640px' }}
+              >
+                {/* The PhonePe script injects its own iframe into DOM (likely appended to body); if it injects in place in future, keep container */}
+                <button
+                  onClick={closeIframe}
+                  className="absolute right-3 top-3 z-10 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur hover:bg-black/80"
+                >
+                  Close
+                </button>
+                <div className="flex h-full w-full items-center justify-center p-6 text-sm text-muted-foreground">
+                  Processing secure payment...
+                </div>
+              </div>
+              <p className="mt-2 text-center text-xs text-muted-foreground">
+                Complete the payment in the secure window above. Do not refresh
+                the page.
+              </p>
+            </div>
+          )}
 
           {paymentError && (
             <p className="mt-4 text-center text-sm text-red-500">
