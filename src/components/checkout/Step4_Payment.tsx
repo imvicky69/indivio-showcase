@@ -12,6 +12,17 @@ interface Step4Props {
   formData: WizardFormData;
 }
 
+type PhonePeCheckoutType = {
+  transact: (opts: {
+    tokenUrl: string;
+    callback: (response: 'USER_CANCEL' | 'CONCLUDED') => void;
+    type: 'IFRAME' | 'REDIRECT';
+  }) => void;
+  closePage?: () => void;
+};
+
+type WindowWithPhonePe = Window & { PhonePeCheckout?: PhonePeCheckoutType };
+
 export function Step4_Payment({ plan, formData }: Step4Props) {
   const [isLoading, setIsLoading] = useState(false);
   const [paymentError, setPaymentError] = useState<string | null>(null);
@@ -25,7 +36,8 @@ export function Step4_Payment({ plan, formData }: Step4Props) {
   // Load PhonePe checkout script once when component mounts
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    if ((window as any).PhonePeCheckout) {
+    const w = window as WindowWithPhonePe;
+    if (w.PhonePeCheckout) {
       setScriptLoaded(true);
       return;
     }
@@ -33,7 +45,7 @@ export function Step4_Payment({ plan, formData }: Step4Props) {
       'script[src="https://mercury.phonepe.com/web/bundle/checkout.js"]'
     ) as HTMLScriptElement | null;
     if (existing) {
-      if ((window as any).PhonePeCheckout) setScriptLoaded(true);
+      if ((window as WindowWithPhonePe).PhonePeCheckout) setScriptLoaded(true);
       existing.addEventListener('load', () => setScriptLoaded(true));
       return;
     }
@@ -52,8 +64,9 @@ export function Step4_Payment({ plan, formData }: Step4Props) {
 
   const closeIframe = useCallback(() => {
     try {
-      (window as any)?.PhonePeCheckout?.closePage?.();
-    } catch (e) {
+      const phonePe = (window as WindowWithPhonePe).PhonePeCheckout;
+      phonePe?.closePage?.();
+    } catch {
       // ignore
     }
     setIframeOpen(false);
@@ -99,11 +112,12 @@ export function Step4_Payment({ plan, formData }: Step4Props) {
       // console.log('Payment data received:', data);
 
       // Use PhonePeCheckout.transact in IFRAME mode
-      if (!(window as any).PhonePeCheckout) {
+      const phonePe = (window as WindowWithPhonePe).PhonePeCheckout;
+      if (!phonePe) {
         throw new Error('Payment gateway script not ready.');
       }
 
-      const tokenUrl = data.checkoutUrl; // Assuming backend returns a URL that serves the token
+      const tokenUrl = data.checkoutUrl as string; // Assuming backend returns a URL that serves the token
 
       const callback = (response: 'USER_CANCEL' | 'CONCLUDED') => {
         // Close loading toast if still visible
@@ -122,7 +136,7 @@ export function Step4_Payment({ plan, formData }: Step4Props) {
       };
 
       try {
-        (window as any).PhonePeCheckout.transact({
+        phonePe.transact({
           tokenUrl,
           callback,
           type: 'IFRAME',
