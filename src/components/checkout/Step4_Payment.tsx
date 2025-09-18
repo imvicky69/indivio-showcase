@@ -136,14 +136,19 @@ export function Step4_Payment({ plan, formData }: Step4Props) {
       };
 
       try {
-        phonePe.transact({
-          tokenUrl,
-          callback,
-          type: 'IFRAME',
-        });
+        // Set iframe open state before transact call to prepare the container
         setIframeOpen(true);
-        toast.dismiss();
-        toast.success('Secure payment window opened');
+
+        // Allow DOM to update with our container before PhonePe injects its iframe
+        setTimeout(() => {
+          phonePe.transact({
+            tokenUrl,
+            callback,
+            type: 'IFRAME',
+          });
+          toast.dismiss();
+          toast.success('Secure payment window opened');
+        }, 100);
       } catch (iframeErr) {
         console.error('Failed to open PhonePe IFRAME:', iframeErr);
         throw new Error('Failed to open payment window.');
@@ -190,26 +195,33 @@ export function Step4_Payment({ plan, formData }: Step4Props) {
           </button>
 
           {iframeOpen && (
-            <div className="mt-8">
-              {/* Responsive IFRAME container */}
-              <div
-                className="relative mx-auto w-full max-w-3xl overflow-hidden rounded-xl border shadow-lg"
-                style={{ minHeight: '640px' }}
-              >
-                {/* The PhonePe script injects its own iframe into DOM (likely appended to body); if it injects in place in future, keep container */}
+            <div className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-white">
+              {/* Full screen container for PhonePe iframe */}
+              <div className="flex h-12 items-center justify-end bg-primary px-4">
                 <button
                   onClick={closeIframe}
-                  className="absolute right-3 top-3 z-10 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur hover:bg-black/80"
+                  className="rounded-full bg-white/20 px-4 py-1 text-sm font-medium text-white backdrop-blur-sm hover:bg-white/30"
                 >
-                  Close
+                  Close Payment
                 </button>
-                <div className="flex h-full w-full items-center justify-center p-6 text-sm text-muted-foreground">
-                  Processing secure payment...
+              </div>
+
+              {/* PhonePe script injects its iframe here, we provide full viewport space */}
+              <div
+                id="phonepe-payment-container"
+                className="flex flex-1 items-center justify-center"
+              >
+                <div className="text-center text-sm text-muted-foreground">
+                  <div className="mb-2 animate-spin text-primary">
+                    <Loader2 size={24} />
+                  </div>
+                  Loading secure payment gateway...
                 </div>
               </div>
-              <p className="mt-2 text-center text-xs text-muted-foreground">
-                Complete the payment in the secure window above. Do not refresh
-                the page.
+
+              <p className="fixed bottom-2 left-0 right-0 text-center text-xs text-muted-foreground">
+                Complete the payment in the secure window. Do not refresh the
+                page.
               </p>
             </div>
           )}
