@@ -86,9 +86,14 @@ function BookingSuccessContent() {
 								);
 								user = userCredential.user;
 								toast.success('Account created successfully!');
-							} catch (authError: any) {
+							} catch (authError: unknown) {
 								// If user exists, try to sign them in instead
-								if (authError?.code === AuthErrorCodes.EMAIL_EXISTS) {
+								if (
+									typeof authError === 'object' &&
+									authError !== null &&
+									'code' in authError &&
+									(authError as { code: string }).code === AuthErrorCodes.EMAIL_EXISTS
+								) {
 									console.log('User exists, attempting to sign in');
 									try {
 										const signInCredential = await signInWithEmailAndPassword(
@@ -130,7 +135,7 @@ function BookingSuccessContent() {
 							setStatus('SUCCESS');
 							sessionStorage.removeItem('indivioBookingData');
 							sessionStorage.removeItem('indivioOrderId');
-						} catch (error: any) {
+						} catch (error: unknown) {
 							console.error('Error saving booking data:', error);
 							toast.error('Error saving booking. Please contact support.');
 							// Try one more time without user creation
