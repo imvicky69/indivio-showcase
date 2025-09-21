@@ -9,6 +9,7 @@
     {
       "source": "functions",
       "codebase": "default",
+              "location": "asia-south1",
       "ignore": [
         "node_modules",
         ".git",

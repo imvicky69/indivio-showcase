@@ -5,7 +5,7 @@ import { OffersSection } from '@/components/pricing/OffersSection';
 
 // Ensure this page is rendered dynamically on every request so Firestore
 // reads always return fresh data instead of build-time cached values.
-export const dynamic = 'force-dynamic';
+
 
 export const metadata: Metadata = {
   title: 'Indivio : Pricing Plans',

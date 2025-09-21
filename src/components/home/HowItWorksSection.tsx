@@ -30,12 +30,6 @@ export function HowItWorksSection() {
     <section className="bg-hero-gradient py-20 sm:py-28">
       <div className="container mx-auto px-6">
         <SectionHeading>How It Works</SectionHeading>
-
-        {/* 
-          This is the main container for the steps.
-          - On mobile: It's a flex-col with gaps for vertical stacking.
-          - On desktop (lg): It becomes a flex-row to lay them out horizontally.
-        */}
         <div className="flex flex-col items-center justify-center gap-y-12 lg:flex-row lg:gap-x-8">
           {stepsData.map((step, index) => (
             // Use React.Fragment to group each step with its following arrow

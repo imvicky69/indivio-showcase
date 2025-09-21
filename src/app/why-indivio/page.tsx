@@ -41,7 +41,7 @@ export default function WhyIndivioPage() {
     <LaunchProcess />
     <FindYourFit />
       <CtaSection {...whyIndivioCtaProps} />
-      <div className="my-8 h-[600px] p-4"></div>
+      
     </div>
   );
 }

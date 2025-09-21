@@ -1,0 +1,495 @@
+{
+	"metadata": {
+		"version": "1.0",
+		"lastUpdated": "2025-09-21",
+		"description": "Centralized content database for Indivio application",
+		"migrationReady": true
+	},
+	"site": {
+		"name": "Indivio",
+		"fullName": "Indivio EdTech",
+		"tagline": "Your School's Professional Website & Management Portal. All in One.",
+		"description": "Affordable all-in-one school management software and website solution for educational institutions",
+		"contact": {
+			"phone": "+91 9211641566",
+			"email": "hello@indivio.in",
+			"whatsapp": "+919211641566",
+			"address": {
+				"street": "3rd Floor, KARV, Thana Road",
+				"city": "Nirmali",
+				"state": "Supaul, Bihar",
+				"pincode": "847452",
+				"full": "3rd Floor, KARV, Thana Road, Nirmali, Supaul, Bihar 847452"
+			}
+		},
+		"social": {
+			"twitter": "https://twitter.com/indivio-in",
+			"linkedin": "https://linkedin.com/company/indivio-tech",
+			"instagram": "https://instagram.com/indivio.in",
+			"facebook": "https://www.facebook.com/indivio",
+			"github": "https://github.com/indivio"
+		}
+	},
+	"navigation": {
+		"primary": [
+			{ "href": "/features", "label": "Features" },
+			{ "href": "/pricing", "label": "Pricing" },
+			{ "href": "/why-indivio", "label": "Why Indivio ?" },
+			{ "href": "/contact", "label": "Contact" }
+		],
+		"footer": [
+			{ "href": "/features", "label": "Features" },
+			{ "href": "/pricing", "label": "Pricing" },
+			{ "href": "/why-indivio", "label": "Why Indivio ?" },
+			{ "href": "/faq", "label": "FAQ" }
+		],
+		"legal": [
+			{ "href": "/terms-and-conditions", "label": "Terms & Conditions" },
+			{ "href": "/privacy-policy", "label": "Privacy Policy" }
+		],
+		"cta": {
+			"primary": "Book Now",
+			"primaryHref": "/booking",
+			"secondary": "See a live example",
+			"secondaryHref": "/demo"
+		}
+	},
+	"hero": {
+		"title": "Your All-in-One School Website & Management Portal.",
+		"description": "We handle the technology so you can focus on education. Effortlessly manage admissions, fees, and parent communication.",
+		"primaryButton": {
+			"label": "See a live example",
+			"href": "/demo"
+		},
+		"secondaryButton": {
+			"label": "Book Your site Now",
+			"href": "/booking"
+		}
+	},
+	"features": {
+		"sectionTitle": "Everything You Need to Manage and Grow Online",
+		"items": [
+			{
+				"icon": "Globe",
+				"title": "Professional Showcase Website",
+				"description": "Attract new admissions and build your brand with a fast, modern, and mobile-friendly website."
+			},
+			{
+				"icon": "Pencil",
+				"title": "Customization on your finger tips",
+				"description": "indivio offers hassle free site manipulation, without even touching a single code. Just by using InDashboard."
+			},
+			{
+				"icon": "IndianRupee",
+				"title": "Online Fee Payments",
+				"description": "Attract new admissions and build your brand with a fast, modern, and mobile-friendly website."
+			},
+			{
+				"icon": "Rocket",
+				"title": "Grow Digitally with Infinite possibilities",
+				"description": "indivio offers hassle free site manipulation, without even touching a single code. Just by using InDashboard."
+			}
+		]
+	},
+	"howItWorks": {
+		"sectionTitle": "How It Works",
+		"steps": [
+			{
+				"step": 1,
+				"icon": "ClipboardCheck",
+				"title": "Choose Your Plan",
+				"description": "Go to the booking page and book your preferred plan by paying the half amount."
+			},
+			{
+				"step": 2,
+				"icon": "ServerCog",
+				"title": "We Handle the Full Setup",
+				"description": "We start your project setup, design, code, and everything else — completely hassle-free."
+			},
+			{
+				"step": 3,
+				"icon": "Rocket",
+				"title": "Go Live & Manage with Ease",
+				"description": "Make the remaining payment and get your InDashboard to access and manage your page changes."
+			}
+		]
+	},
+	"pricing": {
+		"title": "Simple, Transparent Pricing For Every School",
+		"subtitle": "No hidden fees, no surprises. Choose the plan that fits your school's needs and budget.",
+		"renewalNotice": "After the first year, hosting and maintenance starts at just ₹999/year, keeping your costs predictable and low."
+	},
+	"whyIndivio": {
+		"hero": {
+			"title": "Built for Education. Backed by Technology. Driven by Partnership.",
+			"description": "We're not just another website builder - we're your dedicated digital partner committed to your school's success."
+		},
+		"targetAudience": {
+			"title": "Perfect for Every Educational Institution",
+			"segments": [
+				{ "name": "K-12 Schools", "icon": "School" },
+				{ "name": "Coaching Centers", "icon": "Landmark" },
+				{ "name": "Individual Tutors", "icon": "User" }
+			]
+		},
+		"valueProposition": [
+			{
+				"icon": "PackageCheck",
+				"title": "All-Inclusive First Year",
+				"description": "Your fee includes design, setup, hosting, security, and support for a full year. No hidden costs or surprises."
+			},
+			{
+				"icon": "CircleDollarSign",
+				"title": "Extremely Affordable Renewal",
+				"description": "After the first year, hosting and maintenance starts at just ₹999/year, keeping your costs predictable and low."
+			},
+			{
+				"icon": "Zap",
+				"title": "Built for Performance",
+				"description": "Your website is built with modern technology, ensuring it's fast, secure, and reliable for a great user experience."
+			},
+			{
+				"icon": "Handshake",
+				"title": "We Set You Up for Success",
+				"description": "We don't just give you tools; our guided onboarding process and dedicated support are included in every plan."
+			}
+		],
+		"advantages": [
+			{
+				"icon": "Smile",
+				"title": "Simplicity at its Core",
+				"description": "Our intuitive dashboard means you can make updates in minutes, not days. No technical skills required."
+			},
+			{
+				"icon": "Zap",
+				"title": "Built for Performance",
+				"description": "Every Indivio site is fast, secure, and SEO-ready, ensuring a great experience for your visitors and better visibility on Google."
+			},
+			{
+				"icon": "Handshake",
+				"title": "A True Partnership",
+				"description": "We're more than a tool; we're your dedicated digital partner. Our support is always just a call or email away."
+			}
+		],
+		"launchProcess": [
+			{
+				"step": 1,
+				"icon": "ClipboardList",
+				"title": "Consultation & Onboarding",
+				"description": "We start with a conversation to understand your school's unique identity. We handle all the technical setup for you."
+			},
+			{
+				"step": 2,
+				"icon": "Construction",
+				"title": "We Build & Customize",
+				"description": "You provide the content, and our team builds your professional website, customizing it with your logo and colours."
+			},
+			{
+				"step": 3,
+				"icon": "Rocket",
+				"title": "Launch & Training",
+				"description": "We launch your new website and provide a simple training session to show you how easy it is to manage your content."
+			}
+		],
+		"difference": [
+			{
+				"icon": "Handshake",
+				"title": "Dedicated Partnership & Support",
+				"description": "You're not just buying software; you're gaining a technical partner committed to your success."
+			},
+			{
+				"icon": "Zap",
+				"title": "Blazing-Fast Modern Technology",
+				"description": "We use the latest React-based technology to ensure your website loads fast and provides an excellent user experience."
+			},
+			{
+				"icon": "ShieldCheck",
+				"title": "Honest & Transparent Pricing",
+				"description": "No hidden fees. No confusing contracts. What you see is what you pay."
+			},
+			{
+				"icon": "PackageCheck",
+				"title": "Built for Your Needs",
+				"description": "From a smart toppers grid to an easy-to-update events calendar, every feature is designed with educators in mind."
+			},
+			{
+				"icon": "Layers3",
+				"title": "A Platform That Grows With You",
+				"description": "Start with a professional website today and scale to include advanced management features as your needs evolve."
+			},
+			{
+				"icon": "CloudCog",
+				"title": "Secure & Reliable Foundation",
+				"description": "Built on Google's trusted cloud infrastructure with enterprise-grade security and 99.9% uptime guarantee."
+			}
+		]
+	},
+	"testimonials": [
+		{
+			"id": 1,
+			"quote": "Indivio gave our school the professional online presence we always wanted but thought we couldn't afford. The process was seamless, and the toppers grid is a huge hit with parents!",
+			"author": "Principal",
+			"institution": "Sunrise Public School"
+		},
+		{
+			"id": 2,
+			"quote": "Managing our course announcements and faculty profiles is incredibly easy now. Our new website looks fantastic and has directly led to an increase in admission inquiries.",
+			"author": "Director",
+			"institution": "Apex Coaching Academy"
+		},
+		{
+			"id": 3,
+			"quote": "As an independent tutor, having a credible website has been a game-changer for my personal brand. The all-inclusive plan is perfect and so affordable.",
+			"author": "Physics Tutor",
+			"institution": "Self-Employed"
+		}
+	],
+	"founder": {
+		"name": "Vicky Kumar",
+		"title": "Founder & Full Stack Developer",
+		"message": "After working with hundreds of educational institutions, I realized that most schools struggle with expensive, complicated digital solutions that don't understand their unique needs. That's why I built Indivio - to be the partner I wish every school had: reliable, affordable, and genuinely committed to education.",
+		"vision": {
+			"title": "Our Mission",
+			"description": "To democratize quality digital infrastructure for educational institutions across India, ensuring that every school—regardless of size or budget—can compete in the digital age."
+		},
+		"goals": {
+			"title": "Our Vision",
+			"description": "To become the most trusted technology partner for educational institutions, helping them focus on what they do best: educating the next generation."
+		}
+	},
+	"faq": {
+		"searchPlaceholder": "Search questions...",
+		"noResultsTitle": "No results found",
+		"noResultsDescription": "Try searching with different keywords.",
+		"categories": [
+			{
+				"category": "General Questions",
+				"questions": [
+					{
+						"id": "g1",
+						"question": "What is Indivio and who is it for?",
+						"answer": "Indivio is an all-in-one platform providing schools, coaching centers, and individual tutors with a professional website and management dashboard. It's for any educational institution in India looking for an affordable, modern, and hassle-free digital presence."
+					},
+					{
+						"id": "g2",
+						"question": "How is Indivio different from a generic website builder like Wix?",
+						"answer": "While Wix is a general tool, Indivio is built specifically for educators. We provide tailored features like a 'Smart Toppers Grid' and an 'Events Calendar' out of the box. More importantly, we are a full-service partner—we handle the entire setup, hosting, and security for you."
+					}
+				]
+			},
+			{
+				"category": "Website Features",
+				"questions": [
+					{
+						"id": "f1",
+						"question": "Can I have a photo and video gallery?",
+						"answer": "Yes! Our Growth and Pro plans include a beautiful, easy-to-manage gallery module to showcase your campus life, events, and functions."
+					},
+					{
+						"id": "f2",
+						"question": "Is the website mobile-friendly?",
+						"answer": "Absolutely. Every website we build uses a 'mobile-first' design approach, ensuring it looks perfect and is easy to use on all devices, from smartphones to desktops."
+					},
+					{
+						"id": "f3",
+						"question": "Can I update the content myself?",
+						"answer": "Yes! Every plan includes access to your secure Admin Dashboard. From there, you can easily update text, upload photos, post news, and manage your toppers grid without any technical knowledge."
+					}
+				]
+			},
+			{
+				"category": "Pricing & Billing",
+				"questions": [
+					{
+						"id": "p1",
+						"question": "What is included in the first-year fee?",
+						"answer": "The one-time first-year fee is all-inclusive. It covers the complete design and development of your website, 1 year of secure hosting, a free `.indivio.in` subdomain, and our onboarding support."
+					},
+					{
+						"id": "p2",
+						"question": "What is the renewal cost after one year?",
+						"answer": "To keep your website live after the first year, we charge a simple, affordable annual renewal fee starting at just ₹999/year. This covers your hosting, maintenance, and ongoing support."
+					},
+					{
+						"id": "p3",
+						"question": "Are there any hidden fees?",
+						"answer": "No. We believe in honest, transparent pricing. The price you see for the plan is what you pay for the entire first year. There are no hidden setup fees or charges."
+					}
+				]
+			},
+			{
+				"category": "Technical & Hosting",
+				"questions": [
+					{
+						"id": "t1",
+						"question": "Do I need to buy my own hosting or domain?",
+						"answer": "No, you don't need to buy hosting; it's included. A free `.indivio.in` subdomain is also included. If you want a custom domain (like `www.yourschool.com`), you can purchase one and connect it with our Growth or Pro plans."
+					},
+					{
+						"id": "t2",
+						"question": "How do you ensure my website is secure?",
+						"answer": "Your website is built on Google's secure cloud infrastructure and includes an SSL certificate for encrypted connections. We handle all security updates and maintenance behind the scenes."
+					}
+				]
+			},
+			{
+				"category": "Onboarding Process",
+				"questions": [
+					{
+						"id": "o1",
+						"question": "How long does it take to get my website live?",
+						"answer": "Our standard launch process takes just 7 business days from the time we receive all your required content (text, photos, logo)."
+					},
+					{
+						"id": "o2",
+						"question": "What information do I need to provide?",
+						"answer": "We'll provide you with a simple checklist. Generally, this includes your school's logo, the text for each page (like 'About Us'), photos for the gallery, and details for your toppers grid."
+					}
+				]
+			}
+		]
+	},
+	"forms": {
+		"contact": {
+			"title": "Get in Touch",
+			"subtitle": "Have questions? We'd love to hear from you.",
+			"fields": {
+				"name": {
+					"label": "Full Name",
+					"placeholder": "Enter your full name"
+				},
+				"email": {
+					"label": "Email Address",
+					"placeholder": "Enter your email"
+				},
+				"phone": {
+					"label": "Phone Number",
+					"placeholder": "Enter your phone number"
+				},
+				"message": {
+					"label": "Message",
+					"placeholder": "Tell us about your requirements"
+				}
+			},
+			"submitButton": "Send Message",
+			"successMessage": "Thank you for your message! We'll get back to you within 24 hours.",
+			"errorMessage": "Something went wrong. Please try again."
+		},
+		"checkout": {
+			"steps": [
+				{
+					"id": 1,
+					"title": "Plan Details",
+					"description": "Review your selected plan"
+				},
+				{
+					"id": 2,
+					"title": "School Info",
+					"description": "Tell us about your institution"
+				},
+				{
+					"id": 3,
+					"title": "Account Setup",
+					"description": "Create your admin account"
+				},
+				{ "id": 4, "title": "Payment", "description": "Complete your booking" }
+			],
+			"discountCode": {
+				"label": "Discount Code",
+				"placeholder": "e.g., LAUNCH25",
+				"applyButton": "Apply",
+				"removeButton": "Remove",
+				"successMessage": "Success! \"{code}\" applied.",
+				"errorMessage": "This discount code is not valid."
+			}
+		}
+	},
+	"cta": {
+		"default": {
+			"title": "Ready to take your school to the next level?",
+			"subtitle": "Join hundreds of educational institutions that have transformed their digital presence with Indivio.",
+			"primaryButton": "Book Your Website Now",
+			"secondaryButton": "See Live Demo"
+		},
+		"demo": {
+			"title": "Ready to Get Your Own?",
+			"subtitle": "Let's build a digital campus that you and your community will love.",
+			"primaryButton": "Book Now",
+			"secondaryButton": "Contact Us"
+		}
+	},
+	"techAdvantage": {
+		"title": "The Indivio Technology Advantage",
+		"subtitle": "See how we compare to traditional solutions",
+		"traditional": {
+			"title": "Traditional School Websites",
+			"points": [
+				"Expensive to build and maintain",
+				"Requires technical knowledge to update",
+				"Poor mobile experience",
+				"Slow loading times",
+				"No ongoing support",
+				"Hidden fees and surprise costs"
+			]
+		},
+		"indivio": {
+			"title": "The Indivio Way",
+			"points": [
+				"All-inclusive transparent pricing",
+				"Easy-to-use admin dashboard",
+				"Mobile-first responsive design",
+				"Lightning-fast performance",
+				"Dedicated support included",
+				"No hidden fees, ever"
+			]
+		}
+	},
+	"ui": {
+		"buttons": {
+			"viewMore": "View More",
+			"viewLess": "View Less",
+			"loadMore": "Load More",
+			"close": "Close",
+			"back": "Back",
+			"next": "Next",
+			"submit": "Submit",
+			"cancel": "Cancel",
+			"save": "Save Changes",
+			"loading": "Loading...",
+			"bookNow": "Book Now",
+			"getStarted": "Get Started",
+			"learnMore": "Learn More",
+			"seeDemo": "See Demo"
+		},
+		"messages": {
+			"loading": "Loading content...",
+			"error": "Something went wrong. Please try again.",
+			"success": "Operation completed successfully!",
+			"noData": "No data available",
+			"comingSoon": "This feature is coming soon!"
+		},
+		"accessibility": {
+			"toggleMenu": "Toggle menu",
+			"openImage": "Open image",
+			"closeModal": "Close modal",
+			"previousSlide": "Previous slide",
+			"nextSlide": "Next slide"
+		}
+	},
+	"meta": {
+		"defaultTitle": "Indivio - Affordable School Management System & Website Solution",
+		"defaultDescription": "Indivio offers affordable all-in-one school management software and professional website solutions for schools, colleges, and educational institutions.",
+		"keywords": [
+			"school management system",
+			"affordable school ERP",
+			"school website builder",
+			"education management software",
+			"school administration portal",
+			"student information system",
+			"academic management system",
+			"education SaaS platform",
+			"budget-friendly school software",
+			"digital school platform"
+		]
+	}
+}

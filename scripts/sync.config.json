@@ -1,0 +1,8 @@
+{
+	"mode": "local-to-firestore",
+	"serviceAccountPath": "./serviceAccountKey.json",
+	"collection": "frontend",
+	"contentPath": "./src/data/content.json",
+	"backupOnPull": true,
+	"backupDir": "./scripts/backups"
+}

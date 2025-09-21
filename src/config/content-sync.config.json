@@ -1,0 +1,212 @@
+{
+	"pages": {
+		"home": {
+			"contentKeys": ["hero", "features", "testimonials", "howItWorks"],
+			"revalidate": 3600,
+			"cacheStrategy": "isr",
+			"priority": "high",
+			"realtime": false
+		},
+		"features": {
+			"contentKeys": ["features", "navigation", "site"],
+			"revalidate": 7200,
+			"cacheStrategy": "isr",
+			"priority": "high",
+			"realtime": false
+		},
+		"pricing": {
+			"contentKeys": ["pricing", "plans", "navigation", "site"],
+			"revalidate": 1800,
+			"cacheStrategy": "isr",
+			"priority": "high",
+			"realtime": true
+		},
+		"faq": {
+			"contentKeys": ["faq", "navigation", "site"],
+			"revalidate": 3600,
+			"cacheStrategy": "isr",
+			"priority": "medium",
+			"realtime": false
+		},
+		"contact": {
+			"contentKeys": ["forms", "site", "navigation"],
+			"revalidate": 86400,
+			"cacheStrategy": "static",
+			"priority": "medium",
+			"realtime": false
+		},
+		"why-indivio": {
+			"contentKeys": ["whyIndivio", "testimonials", "features"],
+			"revalidate": 7200,
+			"cacheStrategy": "isr",
+			"priority": "medium",
+			"realtime": false
+		},
+		"demo": {
+			"contentKeys": ["demo", "features", "site"],
+			"revalidate": 3600,
+			"cacheStrategy": "isr",
+			"priority": "low",
+			"realtime": false
+		},
+		"checkout": {
+			"contentKeys": ["pricing", "forms", "plans"],
+			"revalidate": 900,
+			"cacheStrategy": "isr",
+			"priority": "high",
+			"realtime": true
+		},
+		"terms-and-conditions": {
+			"contentKeys": ["legal"],
+			"revalidate": 604800,
+			"cacheStrategy": "static",
+			"priority": "low",
+			"realtime": false
+		},
+		"privacy-policy": {
+			"contentKeys": ["legal"],
+			"revalidate": 604800,
+			"cacheStrategy": "static",
+			"priority": "low",
+			"realtime": false
+		}
+	},
+	"content": {
+		"hero": {
+			"revalidate": 3600,
+			"cacheStrategy": "isr",
+			"priority": "high",
+			"realtime": false,
+			"dependencies": []
+		},
+		"features": {
+			"revalidate": 7200,
+			"cacheStrategy": "isr",
+			"priority": "high",
+			"realtime": false,
+			"dependencies": []
+		},
+		"pricing": {
+			"revalidate": 1800,
+			"cacheStrategy": "isr",
+			"priority": "high",
+			"realtime": true,
+			"dependencies": ["plans"]
+		},
+		"plans": {
+			"revalidate": 1800,
+			"cacheStrategy": "isr",
+			"priority": "high",
+			"realtime": true,
+			"dependencies": []
+		},
+		"faq": {
+			"revalidate": 3600,
+			"cacheStrategy": "isr",
+			"priority": "medium",
+			"realtime": false,
+			"dependencies": []
+		},
+		"testimonials": {
+			"revalidate": 7200,
+			"cacheStrategy": "isr",
+			"priority": "medium",
+			"realtime": false,
+			"dependencies": []
+		},
+		"navigation": {
+			"revalidate": 86400,
+			"cacheStrategy": "static",
+			"priority": "high",
+			"realtime": false,
+			"dependencies": []
+		},
+		"site": {
+			"revalidate": 86400,
+			"cacheStrategy": "static",
+			"priority": "high",
+			"realtime": false,
+			"dependencies": []
+		},
+		"metadata": {
+			"revalidate": 86400,
+			"cacheStrategy": "static",
+			"priority": "low",
+			"realtime": false,
+			"dependencies": []
+		},
+		"howItWorks": {
+			"revalidate": 7200,
+			"cacheStrategy": "isr",
+			"priority": "medium",
+			"realtime": false,
+			"dependencies": []
+		},
+		"whyIndivio": {
+			"revalidate": 7200,
+			"cacheStrategy": "isr",
+			"priority": "medium",
+			"realtime": false,
+			"dependencies": ["features", "testimonials"]
+		},
+		"forms": {
+			"revalidate": 86400,
+			"cacheStrategy": "static",
+			"priority": "medium",
+			"realtime": false,
+			"dependencies": []
+		},
+		"demo": {
+			"revalidate": 3600,
+			"cacheStrategy": "isr",
+			"priority": "low",
+			"realtime": false,
+			"dependencies": ["features"]
+		},
+		"legal": {
+			"revalidate": 604800,
+			"cacheStrategy": "static",
+			"priority": "low",
+			"realtime": false,
+			"dependencies": []
+		},
+		"cta": {
+			"revalidate": 7200,
+			"cacheStrategy": "isr",
+			"priority": "medium",
+			"realtime": false,
+			"dependencies": []
+		}
+	},
+	"global": {
+		"defaultRevalidate": 3600,
+		"defaultCacheStrategy": "isr",
+		"enableRealtime": false,
+		"cacheTimeout": 300000,
+		"retryAttempts": 3,
+		"retryDelay": 1000,
+		"collection": "frontend",
+		"enableFallback": true,
+		"logLevel": "info"
+	},
+	"environments": {
+		"development": {
+			"enableRealtime": true,
+			"cacheTimeout": 60000,
+			"defaultRevalidate": 300,
+			"logLevel": "debug"
+		},
+		"production": {
+			"enableRealtime": false,
+			"cacheTimeout": 900000,
+			"defaultRevalidate": 3600,
+			"logLevel": "error"
+		},
+		"staging": {
+			"enableRealtime": true,
+			"cacheTimeout": 300000,
+			"defaultRevalidate": 1800,
+			"logLevel": "info"
+		}
+	}
+}
