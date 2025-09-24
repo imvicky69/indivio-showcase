@@ -148,7 +148,23 @@ export function DemoPageContent() {
       <div className="container mx-auto px-6">
         <AnimatedElement direction="fade" className="text-center">
           <h1 className="font-display text-4xl font-bold text-foreground sm:text-5xl">
-            Experience the Future of School Management
+            Experience School Management Made Simple
+          </h1>
+          <p className="mx-auto mt-6 max-w-3xl text-lg text-muted-foreground">
+            See how easy it is to manage your school's website and showcase student achievements. 
+            This interactive demo shows real features that teachers and administrators use daily.
+          </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm">
+            <span className="rounded-full bg-green-100 px-3 py-1 text-green-700">
+              ✅ No Technical Knowledge Required
+            </span>
+            <span className="rounded-full bg-blue-100 px-3 py-1 text-blue-700">
+              ✅ Real-time Updates
+            </span>
+            <span className="rounded-full bg-purple-100 px-3 py-1 text-purple-700">
+              ✅ Mobile Friendly
+            </span>
+          </div>
           </h1>
           <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground">
             This is a live, interactive demo. Use the toggle to switch between
