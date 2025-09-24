@@ -3,6 +3,8 @@ import { HeroSection } from '@/components/home/HeroSection';
 import { FeaturesSection } from '@/components/home/FeaturesSection';
 import { TechStackSection } from '@/components/home/TechStackSection';
 import { HowItWorksSection } from '@/components/home/HowItWorksSection';
+import { EducationalResourcesSection } from '@/components/home/EducationalResourcesSection';
+import { SchoolShowcaseSection } from '@/components/home/SchoolShowcaseSection';
 
 import { CtaSection } from '@/components//ui/CtaSection';
 import { TechAdvantageSection } from '@/components/home/TechAdvantageSection';
@@ -43,8 +45,9 @@ export default function HomePage() {
       <HeroSection />
       <FeaturesSection />
       <TechAdvantageSection />
-
       <HowItWorksSection />
+      <SchoolShowcaseSection />
+      <EducationalResourcesSection />
       <TechStackSection />
       <CtaSection
         heading="Ready to Elevate Your School's Digital Experience?"
